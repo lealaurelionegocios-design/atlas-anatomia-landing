@@ -30,6 +30,8 @@ describe("formattazione italiana", () => {
     expect(norm(formatEUR(dec("2.505")))).toBe("2,51 €");
     expect(formatPercent(dec("44.2342"))).toBe("44,2%");
     expect(norm(formatUnitCost(dec("0.0018"), "g"))).toBe("0,0018 €/g");
+    expect(norm(formatUnitCost(dec("0.01"), "g"))).toBe("0,0100 €/g");
+    expect(norm(formatUnitCost(dec("0.4"), "pz"))).toBe("0,40 €/pz");
   });
 });
 

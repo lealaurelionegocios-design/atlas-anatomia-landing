@@ -28,8 +28,9 @@ export const formatPercent = (v: Dec | number | null | undefined, decimals = 1) 
 /** Costo per unità base con decimali adeguati: 0,0018 €/g · 0,40 €/pz. */
 export function formatUnitCost(v: Dec | number, unit: string) {
   const d = toDec(v).abs();
-  const max = d.gte(1) ? 2 : d.gte(0.01) ? 4 : 5;
-  return `${fmt(v, 2, max)} €/${unit}`;
+  // sotto 0,10 € servono più decimali (0,0018 €/g); i decimali minimi evitano un ambiguo "0,01"
+  const [min, max] = d.gte(0.1) ? [2, 4] : [4, 5];
+  return `${fmt(v, min, max)} €/${unit}`;
 }
 
 export const formatQty = (n: number, unit: Unit | string) => `${fmt(n, 0, 3)} ${unit}`;
