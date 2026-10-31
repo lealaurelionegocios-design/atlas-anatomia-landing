@@ -42,7 +42,7 @@ export function CommercialPdf(p: CommercialDocProps) {
         </View>
         <View style={[s.box, { flex: 1, backgroundColor: C.canvas, borderColor: C.canvas }]}>
           <Text style={s.th}>{p.kind === "invoice" ? "Amount due" : "Total"}</Text>
-          <Text style={{ fontSize: 18, fontWeight: 700, color: C.forest, marginTop: 4 }}>{p.money(p.kind === "invoice" ? (p.balance ?? p.total) : p.total)}</Text>
+          <Text style={{ fontSize: 18, lineHeight: 1.25, fontWeight: 700, color: C.forest, marginTop: 4, marginBottom: 2 }}>{p.money(p.kind === "invoice" ? (p.balance ?? p.total) : p.total)}</Text>
           {p.meta.map((m) => (
             <Text key={m} style={s.small}>
               {m}

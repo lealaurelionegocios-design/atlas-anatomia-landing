@@ -6,7 +6,7 @@ import type { Database } from "@/lib/supabase/database.types";
 // Loads .env.local so integration tests talk to the local Supabase stack.
 function loadEnv() {
   try {
-    const raw = readFileSync(path.resolve(import.meta.dirname, "../../.env.local"), "utf8");
+    const raw = readFileSync(path.resolve(process.cwd(), ".env.local"), "utf8");
     for (const line of raw.split("\n")) {
       const m = /^([A-Z0-9_]+)=(.*)$/.exec(line.trim());
       if (m && !process.env[m[1]]) process.env[m[1]] = m[2];

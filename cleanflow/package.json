@@ -16,7 +16,7 @@
     "db:start": "supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,realtime,storage-api,postgres-meta",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset",
-    "seed:demo": "node scripts/seed-demo-account.mjs",
+    "seed:demo": "tsx scripts/seed-demo-account.ts",
     "license": "node scripts/license-admin.mjs",
     "db:types": "supabase gen types typescript --local --schema public > src/lib/supabase/database.types.ts"
   },
@@ -46,6 +46,7 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@eslint/eslintrc": "^3.3.7",
     "@playwright/test": "1.63.0",
     "@tailwindcss/postcss": "^4.3.3",
@@ -56,10 +57,12 @@
     "eslint-config-next": "16.4.3",
     "supabase": "^2.122.0",
     "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "vitest": "^4.1.12"
   },
   "allowScripts": {
-    "unrs-resolver@1.12.2": true
+    "unrs-resolver@1.12.2": true,
+    "esbuild@0.28.2": true
   }
 }
