@@ -114,7 +114,7 @@ export function StatCard({
 
 export function Table({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={cn("overflow-x-auto rounded-xl border border-line bg-white", className)}>
+    <div className={cn("relative overflow-x-auto rounded-xl border border-line bg-white", className)}>
       <table className="w-full min-w-[640px] text-left text-sm [&_td]:px-4 [&_td]:py-3 [&_th]:px-4 [&_th]:py-2.5 [&_th]:text-xs [&_th]:font-semibold [&_th]:uppercase [&_th]:tracking-wide [&_th]:text-muted [&_thead]:border-b [&_thead]:border-line [&_thead]:bg-canvas [&_tbody_tr]:border-b [&_tbody_tr]:border-line [&_tbody_tr:last-child]:border-0 [&_tbody_tr:hover]:bg-canvas/60">
         {children}
       </table>

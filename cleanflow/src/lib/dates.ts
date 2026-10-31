@@ -107,7 +107,7 @@ export function monthKey(iso: string): string {
 
 export function monthLabel(key: string, market: Market | string): string {
   const [y, m] = key.split("-").map(Number);
-  return new Intl.DateTimeFormat(market === "UK" ? "en-GB" : "en-US", { month: "short", year: "2-digit", timeZone: "UTC" }).format(
+  return new Intl.DateTimeFormat(market === "UK" ? "en-GB" : "en-US", { month: "short", year: "numeric", timeZone: "UTC" }).format(
     new Date(Date.UTC(y, m - 1, 1)),
   );
 }

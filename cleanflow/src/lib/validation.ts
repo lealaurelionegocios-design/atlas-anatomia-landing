@@ -7,23 +7,26 @@ import { CURRENCIES, DATE_FORMATS, EXPENSE_CATEGORIES, JOB_STATUSES, MARKETS, PA
 
 const text = (max: number) => z.string().trim().max(max, `Use ${max} characters or fewer.`);
 const requiredText = (max: number, label: string) => text(max).min(1, `${label} is required.`);
+// Optional fields accept "", undefined or null and normalise to null. Schemas
+// must accept their own output: react-hook-form submits transformed values and
+// the server action validates them again.
 const optionalText = (max: number) =>
   text(max)
-    .optional()
+    .nullish()
     .transform((v) => (v ? v : null));
 
 const optionalEmail = z
   .string()
   .trim()
   .max(254)
-  .optional()
+  .nullish()
   .refine((v) => !v || z.email().safeParse(v).success, "Enter a valid email address.")
   .transform((v) => (v ? v.toLowerCase() : null));
 
 const isoDate = (label = "Date") => z.string().refine(isIsoDate, `${label} must be a valid date.`);
 const optionalIsoDate = z
   .string()
-  .optional()
+  .nullish()
   .refine((v) => !v || isIsoDate(v), "Enter a valid date.")
   .transform((v) => (v ? v : null));
 
@@ -124,9 +127,9 @@ export const pricingSchema = z.object({
   otherCosts: money("Other costs", { max: 100000 }),
   targetMarginPercent: z.coerce.number({ error: "Enter a margin." }).min(0, "Margin cannot be negative.").max(95, "Margin cannot exceed 95%."),
   manualPrice: z
-    .union([z.literal(""), z.coerce.number().min(0, "Price cannot be negative.").max(1_000_000)])
+    .union([z.literal(""), z.null(), z.coerce.number().min(0, "Price cannot be negative.").max(1_000_000)])
     .optional()
-    .transform((v) => (v === "" || v === undefined ? null : Math.round(v * 100) / 100)),
+    .transform((v) => (v === "" || v === undefined || v === null ? null : Math.round(v * 100) / 100)),
 });
 export type PricingFormInput = z.input<typeof pricingSchema>;
 
@@ -162,7 +165,10 @@ export const jobStatusSchema = z.enum(JOB_STATUSES);
 
 export const invoiceSchema = z.object({
   client_id: uuid("client"),
-  job_id: z.uuid().optional().or(z.literal("")).transform((v) => (v ? v : null)),
+  job_id: z
+    .union([z.uuid(), z.literal(""), z.null()])
+    .optional()
+    .transform((v) => (v ? v : null)),
   issue_date: isoDate("Issue date"),
   due_date: isoDate("Due date"),
   status: z.enum(["draft", "issued"]),

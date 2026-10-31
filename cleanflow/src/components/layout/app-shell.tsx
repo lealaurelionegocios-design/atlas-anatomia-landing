@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import {
   Calculator,
@@ -109,9 +109,7 @@ export function AppShell({
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
-  const pathname = usePathname();
   const items = navItems(quoteTerm);
-  useEffect(() => setOpen(false), [pathname]);
 
   return (
     <div className="min-h-dvh lg:pl-64">

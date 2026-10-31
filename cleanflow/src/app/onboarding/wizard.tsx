@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
 import { ArrowRight, Calculator, CheckCircle2, Sparkles } from "lucide-react";
@@ -43,7 +43,7 @@ export function OnboardingWizard({
     defaultValues: { name: "", owner_name: "", email, phone: "", address: "", market: "US", timezone: "America/New_York", default_hourly_cost: 20, default_target_margin_percent: 35 },
   });
   const { errors, isSubmitting } = form.formState;
-  const market = form.watch("market") as Market;
+  const market = useWatch({ control: form.control, name: "market" }) as Market;
 
   const next = async (fields: (keyof Values)[]) => {
     if (await form.trigger(fields)) setStep((s) => s + 1);
@@ -59,6 +59,12 @@ export function OnboardingWizard({
     toast.success("Your business is set up");
     setStep(4);
     router.refresh();
+  }, (errs) => {
+    // Send the user back to the step that holds the first invalid field.
+    const fieldStep: Partial<Record<keyof Values, number>> = { market: 1, timezone: 1, name: 2, owner_name: 2, email: 2, phone: 2, address: 2 };
+    const first = Object.keys(errs)[0] as keyof Values | undefined;
+    toast.error(first ? `Please check: ${errs[first]?.message ?? first}` : "Please check your details.");
+    if (first && fieldStep[first] !== undefined) setStep(fieldStep[first]!);
   });
 
   const finish = async (href: string) => {

@@ -32,7 +32,7 @@ export default async function DataPage() {
           <CardContent className="space-y-4">
             <p className="text-sm text-muted">Download a full copy of your business data at any time. CSV files open in Excel, Numbers or Google Sheets.</p>
             <Button asChild>
-              <a href="/api/export/all">
+              <a href="/api/export/all" download>
                 <Download /> Full export (JSON)
               </a>
             </Button>

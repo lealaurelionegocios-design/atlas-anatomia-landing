@@ -386,7 +386,7 @@ const TEMPLATES: DocumentTemplate[] = [
     title: () => "Review Request Messages",
     description: "Short, honest messages asking happy clients for a review. Never offer rewards for positive reviews.",
     usesClient: true,
-    build: (ctx) => {
+    build: () => {
       return [
         {
           type: "messages",
