@@ -1,0 +1,53 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-forest: #173f37;
+  --color-brand: #22694e;
+  --color-brand-hover: #1c5a42;
+  --color-mint: #d8ede0;
+  --color-mint-strong: #bfe0cb;
+  --color-canvas: #f7f9f6;
+  --color-ink: #20332e;
+  --color-muted: #5b6e68;
+  --color-line: #dfe7e2;
+  --color-danger: #b42318;
+  --color-danger-soft: #fdecea;
+  --color-warning: #8a5a00;
+  --color-warning-soft: #fdf3dc;
+  --color-info: #1d4f91;
+  --color-info-soft: #e5eefb;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-canvas text-ink font-sans antialiased;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand;
+  }
+  h1, h2, h3 {
+    @apply text-forest tracking-tight;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff !important;
+  }
+  .print-sheet {
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    max-width: none !important;
+    padding: 0 !important;
+  }
+}

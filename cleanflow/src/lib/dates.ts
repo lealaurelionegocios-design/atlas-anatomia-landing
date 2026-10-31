@@ -183,3 +183,11 @@ export function monthsBetween(from: string, to: string, max = 24): string[] {
   }
   return keys.slice(-max);
 }
+
+/** "October 2026" style heading for a month. */
+export function monthTitle(iso: string, market: Market | string): string {
+  const [y, m] = parts(iso.slice(0, 10));
+  return new Intl.DateTimeFormat(market === "UK" ? "en-GB" : "en-US", { month: "long", year: "numeric", timeZone: "UTC" }).format(
+    new Date(Date.UTC(y, m - 1, 1)),
+  );
+}

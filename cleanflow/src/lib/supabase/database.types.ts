@@ -152,7 +152,7 @@ isOneToOne: false
     },{
       foreignKeyName: "invoices_business_id_job_id_fkey"
       columns: ["business_id","job_id"]
-isOneToOne: false
+isOneToOne: true
       referencedRelation: "jobs"
       referencedColumns: ["business_id","id"]
     }
@@ -204,7 +204,7 @@ isOneToOne: false
     },{
       foreignKeyName: "jobs_business_id_quote_id_fkey"
       columns: ["business_id","quote_id"]
-isOneToOne: false
+isOneToOne: true
       referencedRelation: "quotes"
       referencedColumns: ["business_id","id"]
     }

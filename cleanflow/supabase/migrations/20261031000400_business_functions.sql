@@ -189,6 +189,12 @@ begin
          (t.i ->> 'unit_price')::numeric, t.ord
   from jsonb_array_elements(p_items) with ordinality as t(i, ord);
 
+  -- Totals always come from the stored (rounded) line amounts.
+  update public.quotes q set
+    subtotal = s.amount, total = s.amount
+  from (select coalesce(sum(qi.amount), 0) as amount from public.quote_items qi where qi.quote_id = v_id) s
+  where q.id = v_id;
+
   insert into public.quote_versions (business_id, quote_id, version, snapshot)
   select q.business_id, q.id, q.version,
          jsonb_build_object(
@@ -397,6 +403,11 @@ begin
   select v_business, v_id, btrim(t.i ->> 'description'), (t.i ->> 'quantity')::numeric,
          (t.i ->> 'unit_price')::numeric, t.ord
   from jsonb_array_elements(p_items) with ordinality as t(i, ord);
+
+  update public.invoices inv set
+    subtotal = s.amount, total = s.amount
+  from (select coalesce(sum(ii.amount), 0) as amount from public.invoice_items ii where ii.invoice_id = v_id) s
+  where inv.id = v_id;
 
   return v_id;
 end;

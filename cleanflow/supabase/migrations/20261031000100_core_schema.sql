@@ -187,6 +187,8 @@ create table public.jobs (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   unique (business_id, id),
+  -- One job per quote; the composite key also lets PostgREST embed it 1:1.
+  unique (business_id, quote_id),
   foreign key (business_id, client_id) references public.clients (business_id, id),
   foreign key (business_id, quote_id) references public.quotes (business_id, id)
 );
@@ -230,6 +232,7 @@ create table public.invoices (
   unique (business_id, id),
   unique (business_id, number),
   check (due_date >= issue_date),
+  unique (business_id, job_id),
   foreign key (business_id, client_id) references public.clients (business_id, id),
   foreign key (business_id, job_id) references public.jobs (business_id, id)
 );

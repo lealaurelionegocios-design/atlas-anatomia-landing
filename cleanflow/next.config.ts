@@ -11,6 +11,8 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   // @react-pdf/renderer runs in Node route handlers only.
   serverExternalPackages: ["@react-pdf/renderer"],
+  // PDF fonts are read from disk at runtime; make sure they ship with the functions.
+  outputFileTracingIncludes: { "/api/pdf/**": ["./src/lib/pdf/fonts/**"] },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
